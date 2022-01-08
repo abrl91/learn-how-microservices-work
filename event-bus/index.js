@@ -1,9 +1,8 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const axios = require("axios");
+import express from "express";
+import axios from "axios";
 
 const app = express();
-app.use(bodyParser.json());
+app.use(express.json());
 
 const events = [];
 

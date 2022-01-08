@@ -1,9 +1,8 @@
-const express = require('express');
-const axios = require('axios');
-const bodyParser = require('body-parser');
+import express from "express";
+import axios from "axios";
 
 const app = express();
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.post('/events', async (req, res) => {
     const {type, data} = req.body;
