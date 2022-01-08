@@ -1,10 +1,10 @@
-import express from "express";
+import express, {Request, Response} from "express";
 import axios from "axios";
 
 const app = express();
 app.use(express.json());
 
-app.post('/events', async (req, res) => {
+app.post('/events', async (req: Request, res: Response) => {
     const {type, data} = req.body;
     if (type === 'CommentCreated') {
         const status = data.content.includes('orange') ? 'rejected' : 'approved';
@@ -20,8 +20,10 @@ app.post('/events', async (req, res) => {
         });
     }
     res.send({});
-}); 
+});
 
-app.listen('4003', () => {
-    console.log('listening on 4003')
+const PORT = 4003 || process.env.PORT;
+
+app.listen(PORT, () => {
+    console.log(`listening on ${PORT}`);
 });

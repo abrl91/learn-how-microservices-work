@@ -1,4 +1,4 @@
-import express from "express";
+import express, {Request, Response} from "express";
 import axios from "axios";
 import cors from "cors";
 
@@ -7,7 +7,7 @@ app.use(express.json());
 
 const posts = {};
 
-const handleEvent = (type, data) => {
+const handleEvent = (type: string, data: Record<string, any>) => {
     if (type === 'PostCreated') {
         const {id, title} = data;
         posts[id] = { id, title, comments: [] };
@@ -30,24 +30,31 @@ const handleEvent = (type, data) => {
 
 app.use(cors()); 
 
-app.get('/posts', (req, res) => {
+app.get('/posts', (req: Request, res: Response) => {
     res.send(posts);
 });
 
-app.post('/events', (req, res) => {
+app.post('/events', (req: Request, res: Response) => {
     const { type, data } = req.body;
     handleEvent(type, data);
 
     res.send({});
 });
 
-app.listen(4002, async () => {
-    console.log('listening on port 4002');
+const PORT = '4002' || process.env.PORT;
 
-    const res = await axios.get('http://localhost:4005/events');
-    for (let {type, data} of res.data) {
-        console.log('Proccessing event:', type);
+app.listen(PORT, () =>  {
+    console.log(`listening on port ${PORT}`);
 
-        handleEvent(type, data);
-    }
+    axios.get('http://localhost:4005/events')
+        .then((response) => {
+            for (let {type, data} of response.data) {
+                console.log('Processing event:', type);
+
+                handleEvent(type, data);
+            }
+        })
+        .catch(err => console.log(err));
+
+
 });

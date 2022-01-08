@@ -1,4 +1,4 @@
-import express from "express";
+import express, {Request, Response} from "express";
 import axios from "axios";
 import cors from "cors";
 import { randomBytes } from "crypto";
@@ -9,11 +9,11 @@ app.use(cors());
 
 const posts = {};
 
-app.get("/posts", (req, res) => {
+app.get("/posts", (req: Request, res: Response) => {
   res.send(posts);
 });
 
-app.post("/posts", async (req, res) => {
+app.post("/posts", async (req: Request, res: Response) => {
   const id = randomBytes(4).toString("hex");
   const { title } = req.body;
 
@@ -34,12 +34,14 @@ app.post("/posts", async (req, res) => {
   res.status(201).send(posts[id]);
 });
 
-app.post("/events", (req, res) => {
+app.post("/events", (req: Request, res: Response) => {
   console.log("Received Event", req.body.type);
 
   res.send({});
 });
 
-app.listen(4000, () => {
-  console.log("Listening on 4000");
+const PORT = 4000 || process.env.PORT;
+
+app.listen(PORT, () => {
+  console.log(`Listening on ${PORT}`);
 });

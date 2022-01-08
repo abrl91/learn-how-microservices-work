@@ -1,12 +1,13 @@
-import express from "express";
+import express, {Request, Response} from "express";
 import axios from "axios";
+
 
 const app = express();
 app.use(express.json());
 
 const events = [];
 
-app.post("/events", (req, res) => {
+app.post("/events", (req: Request, res: Response) => {
   const event = req.body;
 
   events.push(event);
@@ -36,10 +37,12 @@ app.post("/events", (req, res) => {
   res.send({ status: "OK" });
 });
 
-app.get('/events', (req, res) => {
+app.get('/events', (req: Request, res: Response) => {
   res.send(events);
 });
 
-app.listen(4005, () => {
-  console.log("Listening on 4005");
+const PORT = 4005 || process.env.PORT;
+
+app.listen(PORT, () => {
+  console.log(`Listening on ${PORT}`);
 });
