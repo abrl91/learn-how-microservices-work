@@ -2,15 +2,16 @@
   "name": "posts",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "type": "module",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/node": "^17.0.8",
     "axios": "^0.21.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
